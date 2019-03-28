@@ -1,0 +1,13 @@
+{
+    "version": "pre-alpha 0.2",
+    "questions": [
+        {
+            "text": "How do you spell butt?",
+            "answers": [
+                "Butt",
+                "butt",
+                "BUTT"
+            ]
+        }
+    ]
+}
