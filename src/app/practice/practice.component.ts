@@ -4,6 +4,8 @@ import * as QuestionSet from './dummy.questions.json';
 import {Question} from './question.interface';
 import {UncertaintyHandler} from './uncertaintyHandler.class';
 
+const levenshtein = require('fast-levenshtein');
+
 @Component({
   selector: 'app-practice',
   templateUrl: './practice.component.html',
@@ -26,6 +28,7 @@ export class PracticeComponent implements OnInit {
   ngOnInit() {}
 
   submitAnswer() {  // Submit answer (obviously)
+
     // Check if answer is correct
     if (this.answerCheck()) {
       // if so, run the "correct" script
