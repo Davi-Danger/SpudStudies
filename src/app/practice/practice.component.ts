@@ -15,7 +15,6 @@ export class PracticeComponent implements OnInit {
   public LocalUncertaintyHandler: UncertaintyHandler;
   public CurrentQuestion: Question;
   public score = 1;
-  private previousScore;
 
   public answerGuess = '';
   public questionText = '[Error, no question text given!]';
