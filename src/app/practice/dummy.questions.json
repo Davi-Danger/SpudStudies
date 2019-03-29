@@ -8,6 +8,21 @@
                 "butt",
                 "BUTT"
             ]
+        },
+        {
+            "text": "How do you spell hut?",
+            "answers": [
+                "Hut",
+                "hut"
+            ]
+        },
+        {
+            "text": "Where is Paris?",
+            "answers": [
+                "France",
+                "Europe",
+                "Earth"
+            ]
         }
     ]
 }

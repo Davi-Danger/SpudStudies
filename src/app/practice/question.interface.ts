@@ -1,4 +1,5 @@
 export interface Question {
-  text: string;
-  answers: string[];
+  text: string|string[];
+  answers: string|string[];
+  score?: number;
 }

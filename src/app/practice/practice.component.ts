@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 
-import * as QuestionSet from './dummy.questions.json';
+import * as DummyQuestionSet from './dummy.questions.json';
 import {Question} from './question.interface';
+import {QuestionSet} from './question_set.interface.js';
 import {UncertaintyHandler} from './uncertaintyHandler.class';
 
 const levenshtein = require('fast-levenshtein');
@@ -13,18 +14,28 @@ const levenshtein = require('fast-levenshtein');
 })
 export class PracticeComponent implements OnInit {
   public LocalUncertaintyHandler: UncertaintyHandler;
+  public QuestionSet: QuestionSet;
   public CurrentQuestion: Question;
-  public score = 1;
 
   public answerGuess = '';
   public questionText = '[Error, no question text given!]';
 
   constructor() {
+    // Set QuestionSet as dummy data
+    this.QuestionSet = DummyQuestionSet;
+
     // Set current question to the first in the set
-    this.CurrentQuestion = QuestionSet.questions[0];
+    this.CurrentQuestion = this.QuestionSet.questions[0];
   }
 
   ngOnInit() {}
+
+  prepareQuestionData() {
+    for (const item of this.QuestionSet.questions) {
+      item.score = 0;
+    }
+  }
+  pickQuestion() {}
 
   submitAnswer() {  // Submit answer (obviously)
 
@@ -33,11 +44,11 @@ export class PracticeComponent implements OnInit {
       // if so, run the "correct" script
       this.answerCorrect();
     } else {
-      if (this.score >= 1) {
+      if (this.CurrentQuestion.score >= 1) {
         /* If the score can go any lower,
         reduce it by one and record the old score */
-        this.previousScore = this.score;
-        this.score--;
+        this.previousScore = this.CurrentQuestion.score;
+        this.CurrentQuestion.score--;
       }
       // Alert user of the most correct answer when they are incorrect
       alert(`The correct answer was "${this.CurrentQuestion.answers[0]}"`);
@@ -64,18 +75,16 @@ export class PracticeComponent implements OnInit {
     // if no answers are correct, return false
     return false;
   }
-
   answerCorrect() {  // Action on correct answer
     // If score is at or above the goal, the session is complete
-    if (this.score >= 100) {
+    if (this.CurrentQuestion.score >= 100) {
       // Alert user of session completion
       alert('You win');
       // Reset score for development purposes
-      this.score = 0;
+      this.CurrentQuestion.score = 0;
     } else {
       // Otherwise, add to the score and log previous score
-      this.previousScore = this.score;
-      this.score += 5;
+      this.CurrentQuestion.score += 5;
     }
   }
 }
