@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
+import * as questionSet from './dummy.questions.json';
 import {Question} from './question.interface';
 import {UncertaintyHandler} from './uncertaintyHandler.class';
 
@@ -16,13 +17,13 @@ export class PracticeComponent implements OnInit {
   public guessDetectionScore = 0;
 
   public answerGuess = '';
-  public questionText = 'Zoo Wee ____?';
+  public questionText = '[Error, no question text given!]';
   public answers: string[] = ['Mama', 'mama'];
-
-
 
   constructor() {
     this.LocalUncertaintyHandler = new UncertaintyHandler(this.answers);
+    this.questionText = questionSet.questions[0].text;
+    this.answers = questionSet.questions[0].answers;
   }
 
   ngOnInit() {}
