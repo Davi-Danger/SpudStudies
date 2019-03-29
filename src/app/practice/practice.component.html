@@ -1,5 +1,4 @@
-Uncertainty: {{uncertainty}}
-<br>{{questionText}}
+{{CurrentQuestion.text}}
 <input [(ngModel)]="answerGuess" (keyup.enter)="submitAnswer()" ng-keydown="UncertaintyPenalty(1)">
 <button (click)="submitAnswer()">
   Answer

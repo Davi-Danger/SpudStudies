@@ -17,7 +17,6 @@ export class PracticeComponent implements OnInit {
 
   public answerGuess = '';
   public questionText = '[Error, no question text given!]';
-  public answers: string[] = ['Mama', 'mama'];
 
   constructor() {
     // Set current question to the first in the set
@@ -39,7 +38,7 @@ export class PracticeComponent implements OnInit {
         this.score--;
       }
       // Alert user of the most correct answer when they are incorrect
-      alert(`The correct answer was "${this.answers[0]}"`);
+      alert(`The correct answer was "${this.CurrentQuestion.answers[0]}"`);
     }
     // Reset the textbox and Uncertainty Calculator
     this.answerGuess = '';
