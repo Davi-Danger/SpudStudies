@@ -5,7 +5,7 @@ import {Question} from './question.interface';
 import {QuestionSet} from './question_set.interface.js';
 import {UncertaintyHandler} from './uncertaintyHandler.class';
 
-const levenshtein = require('fast-levenshtein');
+// const levenshtein = require('fast-levenshtein');
 
 @Component({
   selector: 'app-practice',
@@ -17,11 +17,12 @@ export class PracticeComponent implements OnInit {
   public QuestionSet: QuestionSet;
   public CurrentQuestion: Question;
 
+  private scoreAverage: number;
+
   public answerGuess = '';
   public questionText = '[Error, no question text given!]';
 
-  constructor() {
-    // Set QuestionSet as dummy data
+  constructor() {  // Set QuestionSet as dummy data
     this.QuestionSet = DummyQuestionSet;
 
     // Set current question to the first in the set
@@ -47,15 +48,24 @@ export class PracticeComponent implements OnInit {
       if (this.CurrentQuestion.score >= 1) {
         /* If the score can go any lower,
         reduce it by one and record the old score */
-        this.previousScore = this.CurrentQuestion.score;
         this.CurrentQuestion.score--;
       }
       // Alert user of the most correct answer when they are incorrect
       alert(`The correct answer was "${this.CurrentQuestion.answers[0]}"`);
     }
+    // Update average score
+    this.scoreAverage = this.getScoresAverage();
+
     // Reset the textbox and Uncertainty Calculator
     this.answerGuess = '';
     this.LocalUncertaintyHandler.timePassed = 0;
+  }
+  getScoresAverage() {  // Get the average of question scores
+    let total: number;
+    for (const item of this.QuestionSet.questions) {
+      total += item.score;
+    }
+    return total / this.QuestionSet.questions.length;
   }
 
   answerCheck() {  // Checks if an answer is correct
