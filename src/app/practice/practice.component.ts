@@ -30,6 +30,7 @@ export class PracticeComponent implements OnInit {
 
     this.LocalUncertaintyHandler =
         new UncertaintyHandler(this.CurrentQuestion.answers);
+    this.prepareQuestionData();
   }
 
   ngOnInit() {
@@ -42,6 +43,8 @@ export class PracticeComponent implements OnInit {
     }
   }
   pickQuestion() {  // Selects the next question to display
+    for (const question of this.QuestionSet.questions) {
+    }
   }
 
   submitAnswer() {  // Submit answer (obviously)
@@ -67,11 +70,11 @@ export class PracticeComponent implements OnInit {
     this.LocalUncertaintyHandler.timePassed = 0;
   }
   getScoresAverage() {  // Get the average of question scores
-    let total: number;
+    let total = 0;
     for (const item of this.QuestionSet.questions) {
-      console.log(item);
       total += item.score;
     }
+    console.log(total / this.QuestionSet.questions.length);
     return total / this.QuestionSet.questions.length;
   }
 
@@ -101,9 +104,6 @@ export class PracticeComponent implements OnInit {
       this.CurrentQuestion.score = 0;
     } else {
       // Otherwise, add to the score and log previous score
-      if (this.CurrentQuestion.score === NaN) {
-        this.CurrentQuestion.score = 0;
-      }
       this.CurrentQuestion.score += 5;
     }
   }
