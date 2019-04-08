@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import sort from 'fast-sort';
 
 import DummyQuestionSet from '../../assets/dummy.questions.json';
+
 import {Question} from './question.interface';
 import {QuestionSet} from './question_set.interface.js';
 import {UncertaintyHandler} from './uncertaintyHandler.class';
@@ -15,12 +17,11 @@ import {UncertaintyHandler} from './uncertaintyHandler.class';
 export class PracticeComponent implements OnInit {
   public LocalUncertaintyHandler: UncertaintyHandler;
   public QuestionSet: QuestionSet;
-  public CurrentQuestion: Question;
+  private CurrentQuestion: Question;
 
   private scoreAverage = 0;
 
   public answerGuess = '';
-  public questionText = '[Error, no question text given!]';
 
   constructor() {  // Set QuestionSet as dummy data
     this.QuestionSet = DummyQuestionSet;
@@ -42,9 +43,14 @@ export class PracticeComponent implements OnInit {
       item.score = 0;
     }
   }
+  sortQuestions() {
+    sort(this.QuestionSet.questions).by([
+      {asc: 'score'}, {desc: 'timesCalled'}, {asc: 'text'}
+    ]);
+  }
   pickQuestion() {  // Selects the next question to display
-    for (const question of this.QuestionSet.questions) {
-    }
+    this.sortQuestions();
+    this.CurrentQuestion = this.QuestionSet.questions[0];
   }
 
   submitAnswer() {  // Submit answer (obviously)
