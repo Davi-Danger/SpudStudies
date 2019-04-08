@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import * as DummyQuestionSet from './dummy.questions.json';
+import DummyQuestionSet from '../../assets/dummy.questions.json';
 import {Question} from './question.interface';
 import {QuestionSet} from './question_set.interface.js';
 import {UncertaintyHandler} from './uncertaintyHandler.class';
@@ -17,7 +17,7 @@ export class PracticeComponent implements OnInit {
   public QuestionSet: QuestionSet;
   public CurrentQuestion: Question;
 
-  private scoreAverage: number;
+  private scoreAverage = 0;
 
   public answerGuess = '';
   public questionText = '[Error, no question text given!]';
@@ -25,18 +25,24 @@ export class PracticeComponent implements OnInit {
   constructor() {  // Set QuestionSet as dummy data
     this.QuestionSet = DummyQuestionSet;
 
-    // Set current question to the first in the set
-    this.CurrentQuestion = this.QuestionSet.questions[0];
+    // Set current question as a placeholder
+    this.CurrentQuestion = {text: '', answers: ''};
+
+    this.LocalUncertaintyHandler =
+        new UncertaintyHandler(this.CurrentQuestion.answers);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.CurrentQuestion = this.QuestionSet.questions[0];
+  }
 
   prepareQuestionData() {
     for (const item of this.QuestionSet.questions) {
       item.score = 0;
     }
   }
-  pickQuestion() {}
+  pickQuestion() {  // Selects the next question to display
+  }
 
   submitAnswer() {  // Submit answer (obviously)
 
@@ -54,7 +60,7 @@ export class PracticeComponent implements OnInit {
       alert(`The correct answer was "${this.CurrentQuestion.answers[0]}"`);
     }
     // Update average score
-    this.scoreAverage = this.getScoresAverage();
+    this.scoreAverage = Math.floor(this.getScoresAverage());
 
     // Reset the textbox and Uncertainty Calculator
     this.answerGuess = '';
@@ -63,6 +69,7 @@ export class PracticeComponent implements OnInit {
   getScoresAverage() {  // Get the average of question scores
     let total: number;
     for (const item of this.QuestionSet.questions) {
+      console.log(item);
       total += item.score;
     }
     return total / this.QuestionSet.questions.length;
@@ -94,6 +101,9 @@ export class PracticeComponent implements OnInit {
       this.CurrentQuestion.score = 0;
     } else {
       // Otherwise, add to the score and log previous score
+      if (this.CurrentQuestion.score === NaN) {
+        this.CurrentQuestion.score = 0;
+      }
       this.CurrentQuestion.score += 5;
     }
   }
