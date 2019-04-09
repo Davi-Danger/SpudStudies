@@ -85,7 +85,7 @@ export class PracticeComponent implements OnInit {
       // Otherwise, add to the score and log previous score
       this.CurrentQuestion.score += 5;
       // Clear the placeholder text
-      this.correctionText = this.CurrentQuestion.answers[0];
+      this.correctionText = '';
     }
   }
   answerCheck() {  // Checks if an answer is correct
