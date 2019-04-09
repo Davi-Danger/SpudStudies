@@ -15,13 +15,15 @@ import {UncertaintyHandler} from './uncertaintyHandler.class';
   styleUrls: ['./practice.component.scss']
 })
 export class PracticeComponent implements OnInit {
-  public LocalUncertaintyHandler: UncertaintyHandler;
-  public QuestionSet: QuestionSet;
-  private CurrentQuestion: Question;
+  public LocalUncertaintyHandler:
+      UncertaintyHandler;             // Object which tracks uncertainty
+  public QuestionSet: QuestionSet;    // Current set of questions
+  private CurrentQuestion: Question;  // Current question being displayed
 
-  private scoreAverage = 0;
+  private scoreAverage = 0;  // Average score of all questions
 
   public answerGuess = '';
+  private thePlayerIsBeingCorrected = false;
 
   constructor() {  // Set QuestionSet as dummy data
     this.QuestionSet = DummyQuestionSet;
@@ -47,12 +49,50 @@ export class PracticeComponent implements OnInit {
     sort(this.QuestionSet.questions).by([
       {asc: 'score'}, {desc: 'timesCalled'}, {asc: 'text'}
     ]);
+    console.log(this.QuestionSet.questions);
   }
   pickQuestion() {  // Selects the next question to display
     this.sortQuestions();
     this.CurrentQuestion = this.QuestionSet.questions[0];
   }
 
+  getScoresAverage() {  // Get the average of question scores
+    let total = 0;
+    for (const item of this.QuestionSet.questions) {
+      total += item.score;
+    }
+    console.log(total / this.QuestionSet.questions.length);
+    return total / this.QuestionSet.questions.length;
+  }
+
+  answerCorrect() {  // Action on correct answer
+    // If score is at or above the goal, the session is complete
+    if (this.CurrentQuestion.score >= 100) {
+      // Alert user of session completion
+      alert('You win');
+      // Reset score for development purposes
+      this.CurrentQuestion.score = 0;
+    } else {
+      // Otherwise, add to the score and log previous score
+      this.CurrentQuestion.score += 5;
+    }
+  }
+  answerCheck() {  // Checks if an answer is correct
+    // Log the answers to the question in the console
+    console.log(this.CurrentQuestion.answers);
+    // Log the submitted answer
+    console.log(this.answerGuess);
+
+    // check each answer for correctness
+    for (const correctAnswer of this.CurrentQuestion.answers) {
+      // if the answer is correct, return true.
+      if (this.answerGuess === correctAnswer) {
+        return true;
+      }
+    }
+    // if no answers are correct, return false
+    return false;
+  }
   submitAnswer() {  // Submit answer (obviously)
 
     // Check if answer is correct
@@ -71,46 +111,11 @@ export class PracticeComponent implements OnInit {
     // Update average score
     this.scoreAverage = Math.floor(this.getScoresAverage());
 
+    // Get next question
+    this.pickQuestion();
+
     // Reset the textbox and Uncertainty Calculator
     this.answerGuess = '';
     this.LocalUncertaintyHandler.timePassed = 0;
-  }
-  getScoresAverage() {  // Get the average of question scores
-    let total = 0;
-    for (const item of this.QuestionSet.questions) {
-      total += item.score;
-    }
-    console.log(total / this.QuestionSet.questions.length);
-    return total / this.QuestionSet.questions.length;
-  }
-
-  answerCheck() {  // Checks if an answer is correct
-
-    // Log the answers to the question in the console
-    console.log(this.CurrentQuestion.answers);
-    // Log the submitted answer
-    console.log(this.answerGuess);
-
-    // check each answer for correctness
-    for (const correctAnswer of this.CurrentQuestion.answers) {
-      // if the answer is correct, return true.
-      if (this.answerGuess === correctAnswer) {
-        return true;
-      }
-    }
-    // if no answers are correct, return false
-    return false;
-  }
-  answerCorrect() {  // Action on correct answer
-    // If score is at or above the goal, the session is complete
-    if (this.CurrentQuestion.score >= 100) {
-      // Alert user of session completion
-      alert('You win');
-      // Reset score for development purposes
-      this.CurrentQuestion.score = 0;
-    } else {
-      // Otherwise, add to the score and log previous score
-      this.CurrentQuestion.score += 5;
-    }
   }
 }
