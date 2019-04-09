@@ -1,13 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import sort from 'fast-sort';
 
-import DummyQuestionSet from '../../assets/dummy.questions.json';
+import DummyQuestionSet from '../../assets/dummy.questionset.json';
 
 import {Question} from './question.interface';
 import {QuestionSet} from './question_set.interface.js';
 import {UncertaintyHandler} from './uncertaintyHandler.class';
 
 // const levenshtein = require('fast-levenshtein');
+
+/* TODO:
+1. Add case sensitivity option to questions (should be on by default)
+2. Replace scores with uncertainty handler's data
+3. Add JSON upload
+4. Add casual spelling mode to questions (allows a letter or two to be
+incorrect)
+*/
 
 @Component({
   selector: 'app-practice',
@@ -23,7 +31,8 @@ export class PracticeComponent implements OnInit {
   private scoreAverage = 0;  // Average score of all questions
 
   public answerGuess = '';
-  private thePlayerIsBeingCorrected = false;
+  private userIsBeingCorrected = false;
+  private correctionText = '';
 
   constructor() {  // Set QuestionSet as dummy data
     this.QuestionSet = DummyQuestionSet;
@@ -75,6 +84,8 @@ export class PracticeComponent implements OnInit {
     } else {
       // Otherwise, add to the score and log previous score
       this.CurrentQuestion.score += 5;
+      // Clear the placeholder text
+      this.correctionText = this.CurrentQuestion.answers[0];
     }
   }
   answerCheck() {  // Checks if an answer is correct
@@ -99,14 +110,15 @@ export class PracticeComponent implements OnInit {
     if (this.answerCheck()) {
       // if so, run the "correct" script
       this.answerCorrect();
-    } else {
+    } else {  // otherwise...
       if (this.CurrentQuestion.score >= 1) {
         /* If the score can go any lower,
         reduce it by one and record the old score */
         this.CurrentQuestion.score--;
       }
       // Alert user of the most correct answer when they are incorrect
-      alert(`The correct answer was "${this.CurrentQuestion.answers[0]}"`);
+      this.userIsBeingCorrected = true;
+      this.correctionText = this.CurrentQuestion.answers[0];
     }
     // Update average score
     this.scoreAverage = Math.floor(this.getScoresAverage());

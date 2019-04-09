@@ -1,6 +1,6 @@
 {{CurrentQuestion.text}}
 <input [(ngModel)]="answerGuess" (keyup.enter)="submitAnswer()" ng-keydown="UncertaintyPenalty(1)"
-  placeholder="Placeholder">
+  [placeholder]="correctionText">
 <button (click)="submitAnswer()">
   Answer
 </button>
