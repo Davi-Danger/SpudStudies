@@ -3,8 +3,8 @@ import sort from 'fast-sort';
 
 import DummyQuestionSet from '../../assets/dummy.questionset.json';
 
-import {Question} from './question.interface';
-import {QuestionSet} from './question_set.interface.js';
+import {Question} from '../common/question.interface';
+import {QuestionSet} from '../common/question_set.interface.js';
 import {UncertaintyHandler} from './uncertaintyHandler.class';
 
 // const levenshtein = require('fast-levenshtein');
