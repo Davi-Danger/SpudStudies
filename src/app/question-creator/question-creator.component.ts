@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+
+import DummyQuestionSet from '../assets/dummy.questionset.json';
+
+import {Question} from '../common/question.interface';
+import {QuestionSet} from '../common/question_set.interface';
 
 @Component({
   selector: 'app-question-creator',
@@ -6,10 +11,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./question-creator.component.scss']
 })
 export class QuestionCreatorComponent implements OnInit {
+  public CurrentQuestionSet: QuestionSet;  // Current set of questions
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
