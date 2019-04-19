@@ -5,7 +5,8 @@
 <div class="Main">
   <div class="QuestionList">
     <h1>Current Questions</h1>
-    <div *ngFor="let question of CurrentQuestionSet.questions">
+    <div *ngFor="let question of CurrentQuestionSet.questions" [class.selected]="question === ActiveQuestion"
+      class="Question" (click)="onQuestionSelect(question)">
       {{question.text}}
     </div>
   </div>

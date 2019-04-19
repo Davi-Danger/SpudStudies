@@ -12,9 +12,14 @@ import {QuestionSet} from '../common/question_set.interface';
 })
 export class QuestionCreatorComponent implements OnInit {
   public CurrentQuestionSet: QuestionSet;  // Current set of questions
+  private ActiveQuestion: Question;
 
   constructor() {
     this.CurrentQuestionSet = DummyQuestionSet;
+  }
+
+  onQuestionSelect(selectedQuestionData: Question) {
+    this.ActiveQuestion = selectedQuestionData;
   }
 
   ngOnInit() {}

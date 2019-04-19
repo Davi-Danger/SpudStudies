@@ -23,6 +23,17 @@
     height: 70vh;
 }
 
+.Question {
+    padding: 15px;
+}
+
+.selected {
+    background-color: yellow;
+    border-style: solid;
+    border-width: 1px;
+}
+
+
 .QuestionEditor {
     width: 50%;
     background-color: red;
