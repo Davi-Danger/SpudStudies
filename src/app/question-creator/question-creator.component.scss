@@ -3,6 +3,7 @@
     border-radius: 5px;
     padding: 5px;
     overflow: hidden;
+
     input {
         display: block;
         padding: 8px;
@@ -11,11 +12,22 @@
         box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.493);
         border: none;
     }
-    .Skeleton,
-    .Details {
-        float: left;
-        width: 50%;
-    }
+}
+
+.QuestionList {
+    width: 50%;
+    background-color: teal;
+    float: left;
+    display: block;
+
+    height: 70vh;
+}
+
+.QuestionEditor {
+    width: 50%;
+    background-color: red;
+    display: block;
+    float: right;
 }
 
 input[type=text] {
