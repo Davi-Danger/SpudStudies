@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import sort from 'fast-sort';
 
-import DummyQuestionSet from '../../assets/dummy.questionset.json';
+// import DummyQuestionSet from '../../assets/dummy.questionset.json';
 
 import {Question} from '../common/question.interface';
-import {QuestionSet} from '../common/question_set.interface.js';
+import {QuestionSet} from '../common/question_set.interface';
+
 import {UncertaintyHandler} from './uncertaintyHandler.class';
 
 // const levenshtein = require('fast-levenshtein');
@@ -24,9 +25,10 @@ incorrect)
 })
 export class PracticeComponent implements OnInit {
   public LocalUncertaintyHandler:
-      UncertaintyHandler;             // Object which tracks uncertainty
-  public QuestionSet: QuestionSet;    // Current set of questions
-  private CurrentQuestion: Question;  // Current question being displayed
+      UncertaintyHandler;  // Object which tracks uncertainty
+
+  @Input() QuestionSet: QuestionSet;   // Current set of questions
+  @Input() CurrentQuestion: Question;  // Current question being displayed
 
   private scoreAverage = 0;  // Average score of all questions
 
@@ -35,7 +37,7 @@ export class PracticeComponent implements OnInit {
   private correctionText = '';
 
   constructor() {  // Set QuestionSet as dummy data
-    this.QuestionSet = DummyQuestionSet;
+    // this.QuestionSet = DummyQuestionSet;
 
     // Set current question as a placeholder
     this.CurrentQuestion = {text: '', answers: ''};
