@@ -5,7 +5,9 @@
 <div class="Main">
   <div class="QuestionList">
     <h1>Current Questions</h1>
-    <app-question *ngFor="let question of CurrentQuestionSet.questions"></app-question>
+    <div *ngFor="let question of CurrentQuestionSet.questions">
+      {{question.text}}
+    </div>
   </div>
   <div class="QuestionEditor">
     <h1>Edit Question</h1>

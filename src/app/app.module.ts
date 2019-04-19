@@ -7,7 +7,6 @@ import {AppComponent} from './app.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {PracticeComponent} from './practice/practice.component';
 import {QuestionCreatorComponent} from './question-creator/question-creator.component';
-import {QuestionComponent} from './question/question.component';
 import {TabsComponent} from './tabs/tabs.component';
 
 const appRoutes: Routes = [
@@ -20,7 +19,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent, QuestionCreatorComponent, PracticeComponent, TabsComponent,
-    PageNotFoundComponent, QuestionComponent
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule, FormsModule,
