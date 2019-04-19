@@ -1,10 +1,11 @@
 <div class="toolbar">
   <h2>Editor Prototype</h2>
-  <input placeholder="Set Title"><button>Add New Question</button>
+  <input placeholder="Set Title" [(ngModel)]="CurrentQuestionSet.title"><button>Add New Question</button>
 </div>
 <div class="Main">
   <div class="QuestionList">
     <h1>Current Questions</h1>
+    <app-question *ngFor="let question of CurrentQuestionSet.questions"></app-question>
   </div>
   <div class="QuestionEditor">
     <h1>Edit Question</h1>
