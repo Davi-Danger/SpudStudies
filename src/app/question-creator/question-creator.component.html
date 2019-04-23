@@ -6,14 +6,14 @@
 <div class="Main">
   <div class="QuestionList">
     <h1>Current Questions</h1>
-    <div *ngFor="let question of CurrentQuestionSet.questions" [class.selected]="question === ActiveQuestion"
-      class="Question" (click)="onQuestionSelect(question)">
-      <button>Delete Question</button>
+    <div *ngFor="let question of CurrentQuestionSet.questions; index as i;"
+      [class.selected]="question === ActiveQuestion" class="Question" (click)="onQuestionSelect(question)">
+      <button (click)="removeQuestion(i)">Delete Question</button>
       {{question.text}}
     </div>
   </div>
   <div class="QuestionEditor">
     <h1>Edit Question</h1>
-    <input [(ngModel)]="ActiveQuestion.text">
+    <input [(ngModel)]="ActiveQuestion.text" placeholder="Question Text" class="QuestionTextInput">
   </div>
 </div>
