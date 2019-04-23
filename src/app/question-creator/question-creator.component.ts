@@ -16,10 +16,16 @@ export class QuestionCreatorComponent implements OnInit {
 
   constructor() {
     this.CurrentQuestionSet = DummyQuestionSet;
+    this.ActiveQuestion = this.CurrentQuestionSet.questions[0];
   }
 
   onQuestionSelect(selectedQuestionData: Question) {
     this.ActiveQuestion = selectedQuestionData;
+  }
+
+  addQuestion() {
+    this.CurrentQuestionSet.questions.push(
+        <Question>{text: 'Question text goes here!', answers: [{}]});
   }
 
   ngOnInit() {}
