@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import DummyQuestionSet from '../../assets/dummy.questionset.json';
 import {Answer} from '../common/answer.interface.js';
 import {Question} from '../common/question.interface';
-import {QuestionSet} from '../common/question_set.interface';
+import {QuestionSet} from '../common/question_set.class';
 
 @Component({
   selector: 'app-question-creator',
@@ -47,5 +47,7 @@ export class QuestionCreatorComponent implements OnInit {
     console.log(this.ActiveQuestion.answers.splice(index, 1));
     console.log('Answer ' + index + ' was successfully removed.');
   }
+
+  saveSetAsJson() {}
   ngOnInit() {}
 }

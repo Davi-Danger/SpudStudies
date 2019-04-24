@@ -4,7 +4,7 @@ import sort from 'fast-sort';
 import DummyQuestionSet from '../../assets/dummy.questionset.json';
 
 import {Question} from '../common/question.interface';
-import {QuestionSet} from '../common/question_set.interface';
+import {QuestionSet} from '../common/question_set.class';
 
 import {UncertaintyHandler} from './uncertaintyHandler.class';
 
@@ -40,7 +40,7 @@ export class PracticeComponent implements OnInit {
     this.QuestionSet = DummyQuestionSet;
 
     // Set current question as a placeholder
-    this.CurrentQuestion = {text: '', answers: ''};
+    this.CurrentQuestion = {text: '', answers: null};
 
     this.LocalUncertaintyHandler =
         new UncertaintyHandler(this.CurrentQuestion.answers);
@@ -99,7 +99,7 @@ export class PracticeComponent implements OnInit {
     // check each answer for correctness
     for (const correctAnswer of this.CurrentQuestion.answers) {
       // if the answer is correct, return true.
-      if (this.answerGuess === correctAnswer) {
+      if (this.answerGuess === correctAnswer.value) {
         return true;
       }
     }
@@ -120,7 +120,7 @@ export class PracticeComponent implements OnInit {
       }
       // Alert user of the most correct answer when they are incorrect
       this.userIsBeingCorrected = true;
-      this.correctionText = this.CurrentQuestion.answers[0];
+      this.correctionText = this.CurrentQuestion.answers[0].value;
     }
     // Update average score
     this.scoreAverage = Math.floor(this.getScoresAverage());
