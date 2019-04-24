@@ -8,12 +8,17 @@
     <h1>Current Questions</h1>
     <div *ngFor="let question of CurrentQuestionSet.questions; index as i;"
       [class.selected]="question === ActiveQuestion" class="Question" (click)="onQuestionSelect(question)">
-      <button (click)="removeQuestion(i)">Delete Question</button>
+      <button (click)="removeQuestion(i)">X</button>
       {{question.text}}
     </div>
   </div>
   <div class="QuestionEditor">
     <h1>Edit Question</h1>
-    <input [(ngModel)]="ActiveQuestion.text" placeholder="Question Text" class="QuestionTextInput">
+    <input [(ngModel)]="ActiveQuestion.text" placeholder="Question Text" class="QuestionTextInput"><button
+      (click)="addAnswer(i)">+</button>
+    <div *ngFor="let answer of ActiveQuestion.answers; index as i;">
+      <button (click)="removeAnswer(i)">X</button><input placeholder="Answer goes here" [(ngModel)]="answer.value">
+      <input type="checkbox" [(ngModel)]="answer.caseSensitivity" title="Enable case sensitivity">
+    </div>
   </div>
 </div>

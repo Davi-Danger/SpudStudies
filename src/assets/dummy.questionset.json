@@ -1,35 +1,65 @@
 {
-    "version": "pre-alpha 0.3",
+    "version": "pre-alpha 0.4",
     "title": "dummyQuestions",
     "questions": [
         {
             "text": "How do you spell butt?",
             "answers": [
-                "Butt"
+                {
+                    "value": "Butt",
+                    "caseSensitivity": false
+                }
             ]
         },
         {
             "text": "How do you spell hut?",
             "answers": [
-                "Hut"
+                {
+                    "value": "Hut",
+                    "caseSensitivity": false
+                }
             ]
         },
         {
             "text": "Where is Paris?",
             "answers": [
-                "France",
-                "Europe",
-                "Earth"
+                {
+                    "value": "France",
+                    "caseSensitivity": true
+                },
+                {
+                    "value": "Europe",
+                    "caseSensitivity": true
+                },
+                {
+                    "value": "Earth",
+                    "caseSensitivity": true
+                }
             ]
         },
         {
             "text": "How do you write cousin in spanish?",
             "answers": [
-                "la prima",
-                "el primo",
-                "prima",
-                "primo",
-                "cousin in spanish"
+                {
+                    "value": "la prima",
+                    "caseSensitivity": false
+                },
+                {
+                    "value": "el primo",
+                    "caseSensitivity": false
+                },
+                {
+                    "value": "prima",
+                    "caseSensitivity": false
+                },
+                {
+                    "value": "primo",
+                    "caseSensitivity": false
+                },
+                {
+                    "value": "cousin in spanish",
+                    "caseSensitivity": false
+                }
             ]
         }
     ]
