@@ -1,12 +1,13 @@
 <div class="toolbar">
   <h2>Editor Prototype</h2>
-  <input placeholder="Set Title" [(ngModel)]="CurrentQuestionSet.title"><button (click)="addQuestion()">Add New
-    Question</button>
+  <input placeholder="Set Title" [(ngModel)]="CurrentQuestionSet.title">
   <button (click)="saveSetAsJson()">Download Set</button>
 </div>
 <div class="Main">
   <div class="QuestionList">
     <h1>Current Questions</h1>
+    <button (click)="addQuestion()">Add New
+      Question</button>
     <div *ngFor="let question of CurrentQuestionSet.questions; index as i;"
       [class.selected]="question === ActiveQuestion" class="Question" (click)="onQuestionSelect(question)">
       <button (click)="removeQuestion(i)">X</button>

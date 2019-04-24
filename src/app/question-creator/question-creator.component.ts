@@ -25,7 +25,7 @@ export class QuestionCreatorComponent implements OnInit {
 
   addQuestion() {
     this.CurrentQuestionSet.questions.push(
-        <Question>{text: 'Question text goes here!', answers: [{}]});
+        <Question>{text: null, answers: [{}]});
     console.log(
         'Question ' + this.CurrentQuestionSet.questions.length +
         ' successfully added.');
