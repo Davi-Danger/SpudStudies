@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import sort from 'fast-sort';
 
-import DummyQuestionSet from '../../assets/dummy.questionset.json';
+import DefaultQuestionSet from '../../assets/default.questionset.json';
 
 import {Question} from '../common/question.interface';
 import {QuestionSet} from '../common/question_set.interface';
@@ -37,7 +37,7 @@ export class PracticeComponent implements OnInit {
   private correctionText = '';
 
   constructor() {  // Set QuestionSet as dummy data
-    this.QuestionSet = DummyQuestionSet;
+    this.QuestionSet = DefaultQuestionSet;
 
     // Set current question as a placeholder
     this.CurrentQuestion = {text: '', answers: null};

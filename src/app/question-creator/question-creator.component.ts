@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import DummyQuestionSet from '../../assets/dummy.questionset.json';
+import DefaultQuestionSet from '../../assets/default.questionset.json';
 import {Answer} from '../common/answer.interface.js';
 import {Question} from '../common/question.interface';
 import {QuestionSet} from '../common/question_set.interface';
@@ -15,7 +15,7 @@ export class QuestionCreatorComponent implements OnInit {
   private ActiveQuestion: Question;
 
   constructor() {
-    this.CurrentQuestionSet = DummyQuestionSet;
+    this.CurrentQuestionSet = DefaultQuestionSet;
     this.ActiveQuestion = this.CurrentQuestionSet.questions[0];
   }
 
