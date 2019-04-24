@@ -11,11 +11,20 @@ import {UncertaintyHandler} from './uncertaintyHandler.class';
 // const levenshtein = require('fast-levenshtein');
 
 /* TODO:
-1. Add case sensitivity option to questions (should be on by default)
-2. Replace scores with uncertainty handler's data
-3. Add JSON upload
-4. Add casual spelling mode to questions (allows a letter or two to be
+Add JSON upload to practice mode
+
+Add JSON upload to edit mode
+
+Add data validation before download in edit mode
+
+Replace scores with uncertainty handler data
+
+Add nice styling
+
+Add casual spelling mode to questions (allows a letter or two to be
 incorrect)
+
+Make new answers auto-selected in editor
 */
 
 @Component({
