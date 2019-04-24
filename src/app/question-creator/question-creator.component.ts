@@ -3,7 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import DummyQuestionSet from '../../assets/dummy.questionset.json';
 import {Answer} from '../common/answer.interface.js';
 import {Question} from '../common/question.interface';
-import {QuestionSet} from '../common/question_set.class';
+import {QuestionSet} from '../common/question_set.interface';
 
 @Component({
   selector: 'app-question-creator',
@@ -48,6 +48,19 @@ export class QuestionCreatorComponent implements OnInit {
     console.log('Answer ' + index + ' was successfully removed.');
   }
 
-  saveSetAsJson() {}
+  saveSetAsJson() {  // NOT MY CODE (for the most part)
+    console.log(JSON.stringify(this.CurrentQuestionSet));
+    const sanitizedTitle =
+        this.CurrentQuestionSet.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    const dataStr = 'data:text/json;charset=utf-8,' +
+        encodeURIComponent(JSON.stringify(this.CurrentQuestionSet));
+    const downloadNode = document.createElement('a');
+    downloadNode.setAttribute('href', dataStr);
+    downloadNode.setAttribute('download', sanitizedTitle + '.json');
+    document.body.appendChild(downloadNode);  // required for firefox
+    downloadNode.click();
+    downloadNode.remove();
+  }
+
   ngOnInit() {}
 }

@@ -4,7 +4,7 @@ import sort from 'fast-sort';
 import DummyQuestionSet from '../../assets/dummy.questionset.json';
 
 import {Question} from '../common/question.interface';
-import {QuestionSet} from '../common/question_set.class';
+import {QuestionSet} from '../common/question_set.interface';
 
 import {UncertaintyHandler} from './uncertaintyHandler.class';
 
