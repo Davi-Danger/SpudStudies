@@ -12,15 +12,18 @@ import {QuestionSet} from '../common/question_set.interface';
 })
 export class QuestionCreatorComponent implements OnInit {
   public CurrentQuestionSet: QuestionSet;  // Current set of questions
-  private ActiveQuestion: Question;
+  private SelectedQuestion: Question;      // Currently selected question
 
   constructor() {
-    this.CurrentQuestionSet = DefaultQuestionSet;
-    this.ActiveQuestion = this.CurrentQuestionSet.questions[0];
+    this.CurrentQuestionSet = DefaultQuestionSet;  // load blank questionset
+    this.SelectedQuestion =
+        this.CurrentQuestionSet
+            .questions[0];  // automatically select first question
   }
 
   onQuestionSelect(selectedQuestionData: Question) {
-    this.ActiveQuestion = selectedQuestionData;
+    this.SelectedQuestion =
+        selectedQuestionData;  // select the clicked question
   }
 
   addQuestion() {
@@ -31,30 +34,32 @@ export class QuestionCreatorComponent implements OnInit {
         ' successfully added.');
   }
   addAnswer() {
-    this.ActiveQuestion.answers.push(
+    // Append a blank answer to the end of the list of acceptable answers
+    this.SelectedQuestion.answers.push(
         <Answer>{value: null, caseSensitivity: false});
-    console.log(
-        'Answer ' + this.ActiveQuestion.answers.length +
-        ' successfully added.');
   }
-  removeQuestion(index: number) {
+  removeQuestion(index: number) {  // remove a specific answer from the list
     console.log('Question removal request recieved at index ' + index);
     console.log(this.CurrentQuestionSet.questions.splice(index, 1));
     console.log('Question ' + index + ' was successfully removed.');
   }
-  removeAnswer(index: number) {
-    console.log('Answer removal request recieved at index ' + index);
-    console.log(this.ActiveQuestion.answers.splice(index, 1));
-    console.log('Answer ' + index + ' was successfully removed.');
+  removeAnswer(index:
+                   number) {  // remove a specific answer from the current list
+    console.log(this.SelectedQuestion.answers.splice(index, 1));
   }
 
-  saveSetAsJson() {  // NOT MY CODE (for the most part)
+  saveSetAsJson() {  // Save the current set as a Json data file
     console.log(JSON.stringify(this.CurrentQuestionSet));
-    const sanitizedTitle =
-        this.CurrentQuestionSet.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-    const dataStr = 'data:text/json;charset=utf-8,' +
-        encodeURIComponent(JSON.stringify(this.CurrentQuestionSet));
-    const downloadNode = document.createElement('a');
+
+    const sanitizedTitle: string =
+        this.CurrentQuestionSet.title.replace(/[^a-z0-9]/gi, '_')
+            .toLowerCase();  // Make a safe filename
+
+    const dataStr: string = 'data:text/json;charset=utf-8,' +
+        encodeURIComponent(JSON.stringify(
+            this.CurrentQuestionSet));  // Get the data as a string
+
+    const downloadNode = document.createElement('a');  // Download file as json
     downloadNode.setAttribute('href', dataStr);
     downloadNode.setAttribute('download', sanitizedTitle + '.json');
     document.body.appendChild(downloadNode);  // required for firefox
