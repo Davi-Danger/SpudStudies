@@ -1,4 +1,5 @@
 import {HostListener} from '@angular/core';
+import {Answer} from '../common/answer.interface';
 
 export class UncertaintyHandler {
   public uncertainty = 100;  // Total detected uncertainty
@@ -13,9 +14,12 @@ export class UncertaintyHandler {
 
   private Answers;  // Array of correct answers
 
-  constructor(answers) {
-    this.Answers = answers;
-
+  constructor(answers: Answer[]) {
+    try {
+      this.Answers = answers;
+    } catch {
+      console.log('No answers recieved');
+    }
     setInterval(() => {
       this.timePassed++;
       if (this.timePassed % 100 === 0) {

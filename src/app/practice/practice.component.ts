@@ -33,43 +33,56 @@ Make new answers auto-selected in editor
   styleUrls: ['./practice.component.scss']
 })
 export class PracticeComponent implements OnInit {
-  public LocalUncertaintyHandler:
-      UncertaintyHandler;  // Object which tracks uncertainty
-
   private QuestionSet: QuestionSet;   // Current set of questions
   private CurrentQuestion: Question;  // Current question being displayed
 
   private scoreAverage = 0;  // Average score of all questions
 
-  public answerGuess = '';
-  private userIsBeingCorrected = false;
-  private correctionText = '';
+  public answerGuess = '';  // Answer currently entered
+  private correctionText =
+      '';  // Placeholder text for textbox / Most correct answer
 
   constructor() {  // Set QuestionSet as dummy data
     this.QuestionSet = DefaultQuestionSet;
 
     // Set current question as a placeholder
-    this.CurrentQuestion = {text: '', answers: null};
+    this.CurrentQuestion = this.QuestionSet[0];
 
-    this.LocalUncertaintyHandler =
-        new UncertaintyHandler(this.CurrentQuestion.answers);
+    // Set optional property values
     this.prepareQuestionData();
   }
 
   ngOnInit() {
+    // Set the current question to the first in the set
     this.CurrentQuestion = this.QuestionSet.questions[0];
   }
 
-  prepareQuestionData() {
+  prepareQuestionData() {  // Clean all questions' values
     for (const item of this.QuestionSet.questions) {
       item.score = 0;
+    }
+  }
+
+  uploadSet(event) {
+    const fileReader = new FileReader();
+    if (event.target.files &&
+        event.target.files.length > 0) {   // if there are actually files there
+      const file = event.target.files[0];  // set the loaded file
+      fileReader.readAsText(file);         // read file data
+      fileReader.onload = () => {
+        //  console.log(<string>fileReader.result);
+        //  this.QuestionSet = JSON.parse(<string>fileReader.result);
+      };
+      this.prepareQuestionData();     // Reset question set
+      console.log(this.QuestionSet);  // log all question data in the console
     }
   }
   sortQuestions() {
     sort(this.QuestionSet.questions).by([
       {asc: 'score'}, {desc: 'timesCalled'}, {asc: 'text'}
     ]);
-    console.log(this.QuestionSet.questions);
+    console.log(this.QuestionSet
+                    .questions);  // log the newly sorted list in the console
   }
   pickQuestion() {  // Selects the next question to display
     this.sortQuestions();
@@ -107,38 +120,31 @@ export class PracticeComponent implements OnInit {
 
     // check each answer for correctness
     for (const correctAnswer of this.CurrentQuestion.answers) {
-      // if the answer is correct, return true.
       if (this.answerGuess === correctAnswer.value) {
+        // if the answer is correct, return true.
         return true;
       }
     }
     // if no answers are correct, return false
     return false;
   }
-  submitAnswer() {  // Submit answer (obviously)
-
+  submitAnswer() {
     // Check if answer is correct
     if (this.answerCheck()) {
       // if so, run the "correct" script
       this.answerCorrect();
     } else {  // otherwise...
-      if (this.CurrentQuestion.score >= 1) {
-        /* If the score can go any lower,
-        reduce it by one and record the old score */
-        this.CurrentQuestion.score--;
-      }
+      this.CurrentQuestion.score--;
       // Alert user of the most correct answer when they are incorrect
-      this.userIsBeingCorrected = true;
       this.correctionText = this.CurrentQuestion.answers[0].value;
     }
-    // Update average score
+    // Update score average
     this.scoreAverage = Math.floor(this.getScoresAverage());
 
     // Get next question
     this.pickQuestion();
 
-    // Reset the textbox and Uncertainty Calculator
+    // Reset the textbox
     this.answerGuess = '';
-    this.LocalUncertaintyHandler.timePassed = 0;
   }
 }

@@ -1,3 +1,4 @@
+<input type="file" accept=".json" (change)="uploadSet($event)">
 {{CurrentQuestion.text}}
 <input [(ngModel)]="answerGuess" (keyup.enter)="submitAnswer()" ng-keydown="UncertaintyPenalty(1)"
   [placeholder]="correctionText">
