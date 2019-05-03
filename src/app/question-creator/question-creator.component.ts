@@ -12,7 +12,7 @@ import {QuestionSet} from '../common/question_set.interface';
 })
 export class QuestionCreatorComponent implements OnInit {
   public CurrentQuestionSet: QuestionSet;  // Current set of questions
-  private SelectedQuestion: Question;      // Currently selected question
+  SelectedQuestion: Question;              // Currently selected question
 
   constructor() {
     this.CurrentQuestionSet = DefaultQuestionSet;  // load blank questionset

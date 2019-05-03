@@ -33,13 +33,13 @@ Make new answers auto-selected in editor
   styleUrls: ['./practice.component.scss']
 })
 export class PracticeComponent implements OnInit {
-  private QuestionSet: QuestionSet;   // Current set of questions
-  private CurrentQuestion: Question;  // Current question being displayed
+  public QuestionSet: QuestionSet;   // Current set of questions
+  public CurrentQuestion: Question;  // Current question being displayed
 
-  private scoreAverage = 0;  // Average score of all questions
+  public scoreAverage = 0;  // Average score of all questions
 
   public answerGuess = '';  // Answer currently entered
-  private correctionText =
+  public correctionText =
       '';  // Placeholder text for textbox / Most correct answer
 
   constructor() {  // Set QuestionSet as dummy data

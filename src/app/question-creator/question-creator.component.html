@@ -9,16 +9,16 @@
     <button (click)="addQuestion()">Add New
       Question</button>
     <div *ngFor="let question of CurrentQuestionSet.questions; index as i;"
-      [class.selected]="question === ActiveQuestion" class="Question" (click)="onQuestionSelect(question)">
+      [class.selected]="question === SelectedQuestion" class="Question" (click)="onQuestionSelect(question)">
       <button (click)="removeQuestion(i)">X</button>
       {{question.text}}
     </div>
   </div>
   <div class="QuestionEditor">
     <h1>Edit Question</h1>
-    <input [(ngModel)]="ActiveQuestion.text" placeholder="Question Text" class="QuestionTextInput"><button
-      (click)="addAnswer(i)">+</button>
-    <div *ngFor="let answer of ActiveQuestion.answers; index as i;">
+    <input [(ngModel)]="SelectedQuestion.text" placeholder="Question Text" class="QuestionTextInput"><button
+      (click)="addAnswer()">+</button>
+    <div *ngFor="let answer of SelectedQuestion.answers; index as i;">
       <button (click)="removeAnswer(i)">X</button><input placeholder="Answer goes here" [(ngModel)]="answer.value">
       <input type="checkbox" [(ngModel)]="answer.caseSensitivity" title="Enable case sensitivity">
     </div>
