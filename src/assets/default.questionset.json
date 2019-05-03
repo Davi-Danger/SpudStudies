@@ -1,5 +1,14 @@
 {
     "version": "pre-alpha 0.5",
-    "title": null,
-    "questions": []
+    "title": "Empty set",
+    "questions": [
+        {
+            "text": "",
+            "answers": [
+                {
+                    "value": "null"
+                }
+            ]
+        }
+    ]
 }

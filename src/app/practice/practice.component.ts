@@ -57,32 +57,65 @@ export class PracticeComponent implements OnInit {
     this.CurrentQuestion = this.QuestionSet.questions[0];
   }
 
-  prepareQuestionData() {  // Clean all questions' values
+  prepareQuestionData() {  // Adds missing question data
     for (const item of this.QuestionSet.questions) {
-      item.score = 0;
+      item.score = 0;  // set question score
+      if (!item.text) {
+        item.text = 'No text received';
+        console.warn(
+            'Question text could not be found! Placeholder data was used instead.');
+      }
+    }
+  }
+  cleanValues() {
+    for (const question of this.QuestionSet.questions) {
+      if (!question.score || question.score === NaN) {
+        console.warn(
+            'Unscored question "' + question.text +
+            '" had an invalid score, which was set to 0');
+        question.score = 0;
+      }
+      if (question.answers.length <= 0 || !question.answers) {
+        this.QuestionSet = DefaultQuestionSet;
+        console.error('Unacceptable answers. Question set was set to default.');
+      }
+      for (const answer of question.answers) {
+        if (!answer.caseSensitivity || answer.caseSensitivity == null) {
+          answer.caseSensitivity = false;
+          console.warn(
+              'Undetermined case sensitivity found in answer "' + answer.value +
+              '" of question "' + question.text +
+              '". Case sensitivity was set to false');
+        }
+      }
+    }
+    if (!this.scoreAverage || this.scoreAverage === NaN) {
+      this.scoreAverage = 0;
+      console.warn('Score average was unacceptable, so it was set to 0.');
     }
   }
 
   uploadSet(event) {
+    console.log('Set was uploaded');
     const fileReader = new FileReader();
     if (event.target.files &&
         event.target.files.length > 0) {   // if there are actually files there
       const file = event.target.files[0];  // set the loaded file
       fileReader.readAsText(file);         // read file data
       fileReader.onload = () => {
-        //  console.log(<string>fileReader.result);
-        //  this.QuestionSet = JSON.parse(<string>fileReader.result);
+        console.log(<string>fileReader.result);
+        this.QuestionSet = JSON.parse(<string>fileReader.result);
       };
-      this.prepareQuestionData();     // Reset question set
-      console.log(this.QuestionSet);  // log all question data in the console
+      this.prepareQuestionData();      // Reset question set
+      console.info(this.QuestionSet);  // log all question data in the console
     }
   }
   sortQuestions() {
     sort(this.QuestionSet.questions).by([
       {asc: 'score'}, {desc: 'timesCalled'}, {asc: 'text'}
     ]);
-    console.log(this.QuestionSet
-                    .questions);  // log the newly sorted list in the console
+    console.info(this.QuestionSet
+                     .questions);  // log the newly sorted list in the console
   }
   pickQuestion() {  // Selects the next question to display
     this.sortQuestions();
@@ -90,33 +123,34 @@ export class PracticeComponent implements OnInit {
   }
 
   getScoresAverage() {  // Get the average of question scores
+    console.log('Calculating average score...');
     let total = 0;
     for (const item of this.QuestionSet.questions) {
-      total += item.score;
+      if (item.score !== NaN) {
+        total += item.score;
+      }
     }
-    console.log(total / this.QuestionSet.questions.length);
+    if (this.QuestionSet.questions.length <= 0) {
+      console.error('Not enough questions received!');
+    }
+    console.info(
+        'Average score is ' + (total / this.QuestionSet.questions.length));
     return total / this.QuestionSet.questions.length;
   }
 
   answerCorrect() {  // Action on correct answer
     // If score is at or above the goal, the session is complete
-    if (this.CurrentQuestion.score >= 100) {
-      // Alert user of session completion
-      alert('You win');
-      // Reset score for development purposes
-      this.CurrentQuestion.score = 0;
-    } else {
-      // Otherwise, add to the score and log previous score
-      this.CurrentQuestion.score += 5;
-      // Clear the placeholder text
-      this.correctionText = '';
-    }
+    this.CurrentQuestion.score += 5;
+    // Clear the placeholder text
+    this.correctionText = '';
+    console.info(`Question's score is now ${this.CurrentQuestion.score}.`);
   }
   answerCheck() {  // Checks if an answer is correct
     // Log the answers to the question in the console
-    console.log(this.CurrentQuestion.answers);
+    console.log('Checking answer...');
+    console.info(this.CurrentQuestion.answers);
     // Log the submitted answer
-    console.log(this.answerGuess);
+    console.info(this.answerGuess);
 
     // check each answer for correctness
     for (const correctAnswer of this.CurrentQuestion.answers) {
@@ -129,6 +163,8 @@ export class PracticeComponent implements OnInit {
     return false;
   }
   submitAnswer() {
+    console.log('Answer submitted');
+
     // Check if answer is correct
     if (this.answerCheck()) {
       // if so, run the "correct" script
