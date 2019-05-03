@@ -55,18 +55,9 @@ export class PracticeComponent implements OnInit {
   ngOnInit() {
     // Set the current question to the first in the set
     this.CurrentQuestion = this.QuestionSet.questions[0];
+    this.cleanValues();
   }
 
-  prepareQuestionData() {  // Adds missing question data
-    for (const item of this.QuestionSet.questions) {
-      item.score = 0;  // set question score
-      if (!item.text) {
-        item.text = 'No text received';
-        console.warn(
-            'Question text could not be found! Placeholder data was used instead.');
-      }
-    }
-  }
   cleanValues() {
     for (const question of this.QuestionSet.questions) {
       if (!question.score || question.score === NaN) {
@@ -94,9 +85,20 @@ export class PracticeComponent implements OnInit {
       console.warn('Score average was unacceptable, so it was set to 0.');
     }
   }
+  prepareQuestionData() {  // Adds missing question data
+    for (const item of this.QuestionSet.questions) {
+      item.score = 0;  // set question score
+      if (!item.text) {
+        item.text = 'No text received';
+        console.warn(
+            'Question text could not be found! Placeholder data was used instead.');
+      }
+    }
+    this.cleanValues();
+  }
 
   uploadSet(event) {
-    console.log('Set was uploaded');
+    console.log('New set was uploaded');
     const fileReader = new FileReader();
     if (event.target.files &&
         event.target.files.length > 0) {   // if there are actually files there
@@ -109,8 +111,10 @@ export class PracticeComponent implements OnInit {
       this.prepareQuestionData();      // Reset question set
       console.info(this.QuestionSet);  // log all question data in the console
     }
+    this.cleanValues();
   }
   sortQuestions() {
+    this.cleanValues();
     sort(this.QuestionSet.questions).by([
       {asc: 'score'}, {desc: 'timesCalled'}, {asc: 'text'}
     ]);
@@ -154,9 +158,17 @@ export class PracticeComponent implements OnInit {
 
     // check each answer for correctness
     for (const correctAnswer of this.CurrentQuestion.answers) {
-      if (this.answerGuess === correctAnswer.value) {
-        // if the answer is correct, return true.
-        return true;
+      if (correctAnswer.caseSensitivity) {
+        if (this.answerGuess === correctAnswer.value) {
+          // if the answer is correct, return true.
+          return true;
+        }
+      } else {
+        if (this.answerGuess.toUpperCase() ===
+            correctAnswer.value.toUpperCase()) {
+          // if the answer is correct, return true.
+          return true;
+        }
       }
     }
     // if no answers are correct, return false
