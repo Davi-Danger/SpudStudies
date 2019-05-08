@@ -98,21 +98,57 @@ export class PracticeComponent implements OnInit {
   }
 
   uploadSet(event) {
-    console.log('New set was uploaded');
+    console.log('Received upload request');
+
     const fileReader = new FileReader();
+
     if (event.target.files &&
-        event.target.files.length > 0) {   // if there are actually files there
+        event.target.files.length > 0) {  // if there are actually files there
+
       const file = event.target.files[0];  // set the loaded file
-      fileReader.readAsText(file);         // read file data
-      fileReader.onload = () => {
-        console.log(<string>fileReader.result);
-        this.QuestionSet = JSON.parse(<string>fileReader.result);
+
+      fileReader.readAsText(file);  // read file data
+
+      fileReader.onload = () => {  // When the file is loaded...
+        const LocalQuestionSet = JSON.parse(<string>fileReader.result);
+        let success = true;
+        if (this.isSetValid(LocalQuestionSet)) {
+          this.QuestionSet = LocalQuestionSet;
+          try {
+            this.prepareQuestionData();  // Reset question set
+            this.cleanValues();          // Set all unset values
+            this.pickQuestion();
+          } catch {
+            alert('Something went wrong, sorry about that.');
+            success = false;
+          }
+          console.info(this.CurrentQuestion);  // log current question
+          console.info(
+              this.QuestionSet);  // log all question data in the console
+        } else {
+          success = false;
+        }
+
+        if (success) {
+          console.info('Upload completed successfully!');
+        } else {
+          console.error('Upload failed.');
+        }
       };
-      this.prepareQuestionData();      // Reset question set
-      console.info(this.QuestionSet);  // log all question data in the console
     }
     this.cleanValues();
   }
+  isSetValid(question_set: QuestionSet) {
+    if (question_set.title) {
+      if (question_set.version) {
+        if (question_set.questions) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   sortQuestions() {
     this.cleanValues();
     sort(this.QuestionSet.questions).by([
