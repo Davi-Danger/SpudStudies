@@ -1,8 +1,8 @@
 <input type="file" accept=".json" (change)="uploadSet($event)">
-<span *ngIf="CurrentQuestion">{{CurrentQuestion.text}}</span>
+<progress max="100" [value]="scoreAverage"></progress>
+<span class="CurrentQuestion">{{CurrentQuestion.text}}</span>
 <input [(ngModel)]="answerGuess" (keyup.enter)="submitAnswer()" ng-keydown="UncertaintyPenalty(1)"
-  [placeholder]="correctionText">
+  [placeholder]="correctionText" type="text">
 <button (click)="submitAnswer()">
-  Answer
+  Submit Answer
 </button>
-<progress max="100" [value]="scoreAverage">

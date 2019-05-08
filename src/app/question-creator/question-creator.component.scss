@@ -1,5 +1,9 @@
+h1,
+h2 {
+    text-align: center;
+}
+
 .Main {
-    border: 2px solid #8080804a;
     border-radius: 5px;
     padding: 5px;
     overflow: hidden;
@@ -19,10 +23,8 @@
 
 .QuestionList {
     width: 50%;
-    background-color: teal;
     float: left;
     display: block;
-
     height: 70vh;
 }
 
@@ -33,14 +35,11 @@
 
 .selected {
     background-color: yellow;
-    border-style: solid;
-    border-width: 1px;
 }
 
 
 .QuestionEditor {
     width: 50%;
-    background-color: red;
     display: block;
     float: right;
 }
